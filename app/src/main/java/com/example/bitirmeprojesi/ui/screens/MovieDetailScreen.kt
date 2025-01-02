@@ -30,11 +30,11 @@ import com.example.bitirmeprojesi.data.model.Movies
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetailScreen(passedMovie: Movies,navController: NavController) {
-    Scaffold(topBar = { CenterAlignedTopAppBar(title = { Text(text = passedMovie.name) }
+fun MovieDetailScreen(movieName: String, movieImage:String, moviePrice: Int,navigateToCart: () -> Unit) {
+    Scaffold(topBar = { CenterAlignedTopAppBar(title = { Text(text = movieName) }
         , actions = {
             IconButton(onClick =  {
-                navController.navigate("cartscreen")
+                navigateToCart()
             }) {
                 Icon(painter = painterResource(R.drawable.baseline_shopping_cart_24), contentDescription = "")
             }
@@ -51,13 +51,13 @@ fun MovieDetailScreen(passedMovie: Movies,navController: NavController) {
             Image(
                 bitmap = ImageBitmap.imageResource(
                     id = activity.resources.getIdentifier(
-                        passedMovie.image,
+                        movieImage,
                         "drawable",
                         activity.packageName
                     )
                 ), contentDescription = "", modifier = Modifier.size(200.dp, 300.dp)
             )
-            Text(text = "${passedMovie.price} $", fontSize = 50.sp)
+            Text(text = "${moviePrice} $", fontSize = 50.sp)
             Button(onClick = {}) {
                 Text("Add to Cart")
             }

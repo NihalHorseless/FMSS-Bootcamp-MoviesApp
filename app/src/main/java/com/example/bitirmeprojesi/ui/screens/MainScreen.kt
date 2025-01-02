@@ -1,7 +1,5 @@
 package com.example.bitirmeprojesi.ui.screens
 
-import com.example.bitirmeprojesi.data.model.Movies
-
 import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -22,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -36,14 +33,13 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.bitirmeprojesi.R
-import com.google.gson.Gson
+import com.example.bitirmeprojesi.data.model.Movies
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(onNavigateToDetail: (String,Int,String) -> Unit,onNavigateToCart: () -> Unit) {
     var movieList = remember { mutableStateListOf<Movies>() }
     val scope = rememberCoroutineScope()
 
@@ -54,9 +50,7 @@ fun MainScreen(navController: NavController) {
 
     Scaffold(topBar = { CenterAlignedTopAppBar(title = { Text(text = "Movies") }
     , actions = {
-        IconButton(onClick =  {
-            navController.navigate("cartscreen")
-        }) {
+        IconButton(onClick =  onNavigateToCart) {
             Icon(painter = painterResource(R.drawable.baseline_shopping_cart_24), contentDescription = "")
         }
         }) })
@@ -73,8 +67,7 @@ fun MainScreen(navController: NavController) {
                     val movie = movieList[it]
                     Card(modifier = Modifier.padding(all = 5.dp)) {
                         Column(modifier = Modifier.fillMaxWidth().clickable {
-                            val movieJson = Gson().toJson(movie)
-                            navController.navigate("detailscreen/${movieJson}")
+                            onNavigateToDetail(movie.name,movie.price,movie.image)
                         }) {
                             val activity = (LocalContext.current as Activity)
                             Image(
