@@ -3,7 +3,7 @@ package com.example.bitirmeprojesi.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Movies(
+data class Movie(
     var id: Int = 0 ,
     var name: String = "",
     var image: String = "",

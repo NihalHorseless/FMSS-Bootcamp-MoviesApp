@@ -1,6 +1,5 @@
 package com.example.bitirmeprojesi.util
 
-import com.example.bitirmeprojesi.data.model.Movies
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -31,10 +31,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bitirmeprojesi.R
+import com.example.bitirmeprojesi.ui.viewmodel.CartScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartScreen(navigationBack: () -> Unit) {
+fun CartScreen(navigationBack: () -> Unit,
+               cartScreenViewModel: CartScreenViewModel) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = true) {
@@ -121,8 +123,4 @@ fun ButtonGroup() {
         }
     }
 }
-@Composable
-@Preview
-fun CartScreenPrev() {
-    CartScreen(navigationBack = {})
-}
+

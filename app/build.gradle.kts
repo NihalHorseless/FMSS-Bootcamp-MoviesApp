@@ -2,7 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // Kotlin Serializer Plugin
     kotlin("plugin.serialization") version "2.0.21"
+    // Kapt Processor PLugin
+    id("kotlin-kapt")
+    // Hilt Plugin
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -40,6 +45,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -59,6 +65,15 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.6.1")
     //LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    // Gson for Retrofit Serialization
+    implementation("com.google.code.gson:gson:2.9.0")
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.6.1")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

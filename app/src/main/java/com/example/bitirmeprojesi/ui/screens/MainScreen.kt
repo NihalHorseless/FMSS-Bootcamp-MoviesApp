@@ -34,17 +34,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bitirmeprojesi.R
-import com.example.bitirmeprojesi.data.model.Movies
+import com.example.bitirmeprojesi.data.model.Movie
+import com.example.bitirmeprojesi.ui.viewmodel.MainScreenViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onNavigateToDetail: (String,Int,String) -> Unit,onNavigateToCart: () -> Unit) {
-    var movieList = remember { mutableStateListOf<Movies>() }
+fun MainScreen(onNavigateToDetail: (String,Int,String) -> Unit,
+               onNavigateToCart: () -> Unit,
+               mainScreenViewModel: MainScreenViewModel) {
+    var movieList = remember { mutableStateListOf<Movie>() }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
-        val f1 = Movies(1, "Django", "django", 24)
+        val f1 = Movie(1, "Django", "django", 24)
         movieList.add(f1)
     }
 

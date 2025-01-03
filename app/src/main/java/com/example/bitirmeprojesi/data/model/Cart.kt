@@ -1,6 +1,6 @@
 package com.example.bitirmeprojesi.data.model
 
-data class MovieCart(
+data class Cart(
     var cartId: Int,
     var name: String,
     var image: String,
