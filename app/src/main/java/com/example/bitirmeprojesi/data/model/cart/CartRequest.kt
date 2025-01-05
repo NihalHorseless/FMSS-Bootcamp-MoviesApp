@@ -1,7 +1,7 @@
-package com.example.bitirmeprojesi.data.model
+package com.example.bitirmeprojesi.data.model.cart
 
-data class Cart(
-    var cartId: Int,
+
+data class CartRequest(
     var name: String,
     var image: String,
     var price: Int,
@@ -12,5 +12,4 @@ data class Cart(
     var description: String,
     var orderAmount: Int,
     var userName: String
-) {
-}
+)

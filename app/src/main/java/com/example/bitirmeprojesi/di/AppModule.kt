@@ -25,11 +25,13 @@ class AppModule {
     fun provideMoviesDataSource(movieDao: MovieDao) : MoviesDataSource {
         return MoviesDataSource(movieDao)
     }
+
     @Provides
     @Singleton
-    fun provideCartDataSource() : CartDataSource {
-        return CartDataSource()
+    fun provideCartDataSource(movieDao: MovieDao) : CartDataSource {
+        return CartDataSource(movieDao)
     }
+
     @Provides
     @Singleton
     fun provideMovieDao():MovieDao {

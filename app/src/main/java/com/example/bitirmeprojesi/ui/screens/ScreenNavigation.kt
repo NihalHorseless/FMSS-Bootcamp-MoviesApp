@@ -41,12 +41,10 @@ fun ScreenNavigation(
     // New Way
     NavHost(navController, startDestination = Home) {
         composable<Home> {
-            MainScreen(onNavigateToDetail = { movieName, moviePrice, movieImage ->
+            MainScreen(onNavigateToDetail = { movieId ->
                 navController.navigate(
                     Detail(
-                        movieName = movieName,
-                        moviePrice = moviePrice,
-                        movieImage = movieImage
+                        movieId = movieId
                     )
                 )
             }, onNavigateToCart = {
@@ -56,11 +54,11 @@ fun ScreenNavigation(
         composable<Detail> { backStackEntry ->
             val detail: Detail = backStackEntry.toRoute()
             MovieDetailScreen(
-                movieName = detail.movieName,
-                moviePrice = detail.moviePrice,
-                movieImage = detail.movieImage,
+               movieId = detail.movieId,
                 navigateToCart = {
                     navController.navigate(Cart)
+                }, navigateToMain = {
+                    navController.navigate(Home)
                 }, movieDetailScreenViewModel = movieDetailScreenViewModel)
         }
         composable<Cart> {

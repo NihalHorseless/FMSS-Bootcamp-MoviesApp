@@ -1,4 +1,4 @@
-package com.example.bitirmeprojesi.data.model
+package com.example.bitirmeprojesi.data.model.movie
 
 import kotlinx.serialization.Serializable
 
