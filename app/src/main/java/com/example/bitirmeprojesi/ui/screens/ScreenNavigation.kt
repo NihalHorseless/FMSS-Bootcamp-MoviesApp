@@ -10,6 +10,7 @@ import com.example.bitirmeprojesi.ui.viewmodel.MainScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MovieDetailScreenViewModel
 import com.example.bitirmeprojesi.util.Cart
 import com.example.bitirmeprojesi.util.Detail
+import com.example.bitirmeprojesi.util.Favorites
 import com.example.bitirmeprojesi.util.Home
 
 @Composable
@@ -47,23 +48,49 @@ fun ScreenNavigation(
                         movieId = movieId
                     )
                 )
-            }, onNavigateToCart = {
-                navController.navigate(Cart)
+            }, onNavigateToCart = { userName ->
+                navController.navigate(Cart(userName = userName))
+            }, onNavigateToFavs = {
+                navController.navigate(Favorites)
             }, mainScreenViewModel = mainScreenViewModel)
         }
         composable<Detail> { backStackEntry ->
             val detail: Detail = backStackEntry.toRoute()
             MovieDetailScreen(
-               movieId = detail.movieId,
-                navigateToCart = {
-                    navController.navigate(Cart)
-                }, navigateToMain = {
-                    navController.navigate(Home)
-                }, movieDetailScreenViewModel = movieDetailScreenViewModel)
+                movieId = detail.movieId,
+                navigateToCart = { userName ->
+                    navController.navigate(
+                        Cart(
+                        userName = userName
+                        )
+                    )
+                }, navigateBack = {
+                    navController.popBackStack()
+                }, movieDetailScreenViewModel = movieDetailScreenViewModel
+            )
         }
         composable<Cart> {
-            CartScreen(navigationBack = { navController.navigate(Home) },
-                cartScreenViewModel = cartScreenViewModel)
+                backStackEntry ->
+            val cart: Cart = backStackEntry.toRoute()
+            CartScreen(
+                navigationBack = { navController.navigate(Home) },
+                cartScreenViewModel = cartScreenViewModel,
+                userName = cart.userName
+            )
+        }
+        composable <Favorites> {
+            FavoritesScreen(navigateToHome = {
+                navController.navigate(Home)
+            },onNavigateToDetail = { movieId ->
+                navController.navigate(
+                    Detail(
+                        movieId = movieId
+                    )
+                )
+            }, onNavigateToCart = {
+                    userName ->
+                navController.navigate(Cart(userName = userName))
+            })
         }
     }
 

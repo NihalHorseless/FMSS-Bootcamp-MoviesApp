@@ -10,4 +10,7 @@ object Home
 data class Detail(val movieId: Int)
 
 @Serializable
-object Cart
+data class Cart(val userName:String)
+
+@Serializable
+object Favorites

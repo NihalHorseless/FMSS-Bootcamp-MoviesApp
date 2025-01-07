@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -40,58 +40,56 @@ import com.example.bitirmeprojesi.R
 import com.example.bitirmeprojesi.data.model.movie.Movie
 import com.example.bitirmeprojesi.data.retrofit.ApiUtils.Companion.BASE_IMAGE_URL
 import com.example.bitirmeprojesi.ui.theme.ReallyDark
-import com.example.bitirmeprojesi.ui.theme.roboto_medium
 import com.example.bitirmeprojesi.ui.theme.roboto_regular
 import com.example.bitirmeprojesi.ui.viewmodel.MovieDetailScreenViewModel
+import com.example.bitirmeprojesi.util.convertToStar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
     movieId: Int,
-    navigateToCart: () -> Unit,
-    navigateToMain: () -> Unit,
+    navigateToCart: (String) -> Unit,
+    navigateBack: () -> Unit,
     movieDetailScreenViewModel: MovieDetailScreenViewModel
 ) {
-    var movie = movieDetailScreenViewModel.movie.observeAsState(Movie())
+    val movie = movieDetailScreenViewModel.movie.collectAsState(initial = Movie())
 
     LaunchedEffect(key1 = true) {
         movieDetailScreenViewModel.loadMovie(movieId)
     }
-    Scaffold(topBar = {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp) // Adjust the height to your needs
-                .background(Color.Transparent) // Make it transparent
-        ) {
-            IconButton(
-                onClick = { navigateToMain() },
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.White
-                )
-            }
 
-            IconButton(
-                onClick = { navigateToCart() },
+    Scaffold(
+        topBar = {
+            Box(
                 modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 8.dp)
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .background(Color.Transparent)
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_shopping_cart_24),
-                    contentDescription = "Cart",
-                    tint = Color.White
-                )
+                IconButton(
+                    onClick = { navigateBack() },
+                    modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
+
+                IconButton(
+                    onClick = { navigateToCart("onur_aslan") },
+                    modifier = Modifier.align(Alignment.CenterEnd).padding(end = 8.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.baseline_shopping_cart_24),
+                        contentDescription = "Cart",
+                        tint = Color.White
+                    )
+                }
             }
         }
-    })
-    { paddingValues ->
+    ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize()) {
             // Background Gradient
             Box(
@@ -149,7 +147,7 @@ fun MovieDetailScreen(
                                 contentDescription = "Review Information",
                                 modifier = Modifier.size(16.dp), tint = Color.Gray
                             )
-                            Text(text = "${movie.value.rating} ✦✦✦⟡⟡", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+                            Text(text = "${convertToStar(movie.value.rating)}", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
                         }
 
                         // Separator
@@ -188,6 +186,11 @@ fun MovieDetailScreen(
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.White
                     )
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                        movieDetailScreenViewModel.addMovieToCart(movie = movie.value, userName = "onur_aslan", orderAmount = 1)
+                    }) {
+                        Text(text = "Add")
+                    }
                 }
             }
         }

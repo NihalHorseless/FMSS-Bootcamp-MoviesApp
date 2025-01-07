@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,60 +38,67 @@ import com.example.bitirmeprojesi.ui.viewmodel.MainScreenViewModel
 @Composable
 fun MainScreen(
     onNavigateToDetail: (Int) -> Unit,
-    onNavigateToCart: () -> Unit,
+    onNavigateToCart: (String) -> Unit,
+    onNavigateToFavs: () -> Unit,
     mainScreenViewModel: MainScreenViewModel
 ) {
-    var movieList = mainScreenViewModel.movieList.observeAsState(listOf())
-    val scope = rememberCoroutineScope()
+    val movieList = mainScreenViewModel.movieList.collectAsState(initial = listOf())
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(Unit) {
         mainScreenViewModel.loadMovies()
     }
 
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(title = { Text(text = "Movies") }, actions = {
-            IconButton(onClick = onNavigateToCart) {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_shopping_cart_24),
-                    contentDescription = ""
-                )
-            }
-        })
-    })
-    { paddingValues ->
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(text = "Movies") },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateToFavs) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_bookmarks_24),
+                            contentDescription = ""
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onNavigateToCart("onur_aslan") }) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_shopping_cart_24),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
             columns = GridCells.Fixed(2)
         ) {
-            items(
-                count = movieList.value.count(),
-                itemContent = {
-                    val movie = movieList.value[it]
-                    Card(modifier = Modifier.padding(all = 4.dp)) {
-                        Column(modifier = Modifier
+            items(count = movieList.value.count()) { index ->
+                val movie = movieList.value[index]
+                Card(modifier = Modifier.padding(all = 4.dp)) {
+                    Column(
+                        modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                onNavigateToDetail(movie.id)
-                            }) {
-                            val activity = (LocalContext.current as Activity)
-                            AsyncImage(
-                                model = BASE_IMAGE_URL + movie.image,
-                                contentDescription = null
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceEvenly
-                            ) {
-                                Text(text = "${movie.price} $", fontSize = 25.sp)
-
-                            }
+                            .clickable { onNavigateToDetail(movie.id) }
+                    ) {
+                        AsyncImage(
+                            model = BASE_IMAGE_URL + movie.image,
+                            contentDescription = null
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Text(text = "${movie.price} $", fontSize = 25.sp)
                         }
                     }
                 }
-            )
+            }
         }
     }
 }
