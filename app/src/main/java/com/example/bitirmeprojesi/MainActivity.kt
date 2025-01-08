@@ -16,6 +16,7 @@ import com.example.bitirmeprojesi.ui.screens.MainScreen
 import com.example.bitirmeprojesi.ui.screens.ScreenNavigation
 import com.example.bitirmeprojesi.ui.theme.BitirmeProjesiTheme
 import com.example.bitirmeprojesi.ui.viewmodel.CartScreenViewModel
+import com.example.bitirmeprojesi.ui.viewmodel.FavoriteScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MainScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MovieDetailScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,13 +25,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val mainScreenViewModel: MainScreenViewModel by viewModels()
         val movieDetailScreenViewModel: MovieDetailScreenViewModel by viewModels()
         val cartScreenViewModel: CartScreenViewModel by viewModels()
+        val favoriteScreenViewModel: FavoriteScreenViewModel by viewModels()
         enableEdgeToEdge()
         setContent {
             BitirmeProjesiTheme {
-                ScreenNavigation(mainScreenViewModel,movieDetailScreenViewModel,cartScreenViewModel)
+                ScreenNavigation(mainScreenViewModel,movieDetailScreenViewModel,cartScreenViewModel,favoriteScreenViewModel)
             }
         }
     }

@@ -1,9 +1,19 @@
 package com.example.bitirmeprojesi.data.model.favorite
 
-data class FavoriteMovie(var id: Int = 0,
-                         var name: String = "",
-                         var image: String = "",
-                         var rating: Double = 1.0
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "fav_movies")
+data class FavoriteMovie(
+    @PrimaryKey
+    var fav_id: Int = 0,
+    @ColumnInfo(name = "name")
+    var name: String = "",
+    @ColumnInfo(name = "image")
+    var image: String = "",
+    @ColumnInfo(name = "rating")
+    var rating: Double = 1.0
     ) {
 
 }

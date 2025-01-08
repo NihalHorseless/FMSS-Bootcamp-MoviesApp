@@ -1,6 +1,7 @@
 package com.example.bitirmeprojesi.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,12 +22,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -43,6 +47,7 @@ fun CartScreen(
 ) {
     val cartList = cartScreenViewModel.movieCartMovies.collectAsState(initial = listOf())
     val isCartEmpty by cartScreenViewModel.isCartEmpty.collectAsState()
+    val totalPrice = cartScreenViewModel.totalCost.collectAsState(initial = 0)
 
     LaunchedEffect(Unit) {
         cartScreenViewModel.refreshCart(userName = "onur_aslan")
@@ -50,7 +55,7 @@ fun CartScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.tertiary),
                 navigationIcon = {
                     IconButton(onClick = navigationBack) {
                         Icon(
@@ -76,16 +81,16 @@ fun CartScreen(
             )
         },
         bottomBar = {
-            BottomAppBar {
+            BottomAppBar(containerColor = MaterialTheme.colorScheme.tertiary) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.tertiary),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Button(onClick = {}, modifier = Modifier.fillMaxWidth(0.7f)) {
+                    Button(colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),onClick = {}, modifier = Modifier.fillMaxWidth(0.7f)) {
                         Text(text = "Order!")
                     }
-                    Text(text = "1250 ₺", modifier = Modifier)
+                    Text(text = "${totalPrice.value} ₺", modifier = Modifier, color = Color.White)
                 }
             }
         }
@@ -109,12 +114,13 @@ fun CartScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .background(MaterialTheme.colorScheme.surface)
             ) {
                 items(count = cartList.value.size) { index ->
                     val cartItem = cartList.value[index]
-                    Card(modifier = Modifier.padding(all = 5.dp)) {
+                    Card(modifier = Modifier.padding(all = 5.dp).background(MaterialTheme.colorScheme.surface)) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
@@ -154,13 +160,13 @@ fun ButtonGroup(onDelete: () -> Unit, onIncrease: () -> Unit, orderAmount: Int) 
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        OutlinedButton(onClick = { onDelete() }, modifier = Modifier, shape = RectangleShape) {
+        OutlinedButton(colors = ButtonDefaults.buttonColors(contentColor = Color.LightGray, containerColor = MaterialTheme.colorScheme.background),onClick = { onDelete() }, modifier = Modifier, shape = RectangleShape) {
             Icon(painter = painterResource(R.drawable.baseline_remove_24), contentDescription = "")
         }
-        Button(onClick = {}, modifier = Modifier, shape = RectangleShape) {
-            Text(text = "$orderAmount")
+        Button(colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),onClick = {}, modifier = Modifier, shape = RectangleShape) {
+            Text(text = "$orderAmount", color = Color.LightGray)
         }
-        OutlinedButton(onClick = {
+        OutlinedButton(colors = ButtonDefaults.buttonColors(contentColor = Color.LightGray, containerColor = MaterialTheme.colorScheme.background),onClick = {
             onIncrease()
         }, modifier = Modifier, shape = RectangleShape) {
             Icon(painter = painterResource(R.drawable.baseline_add_24), contentDescription = "")

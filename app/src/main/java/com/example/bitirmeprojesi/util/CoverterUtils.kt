@@ -1,6 +1,7 @@
 package com.example.bitirmeprojesi.util
 
 import com.example.bitirmeprojesi.data.model.cart.MovieCart
+import com.example.bitirmeprojesi.data.model.favorite.FavoriteMovie
 import com.example.bitirmeprojesi.data.model.movie.Movie
 
 
@@ -14,6 +15,14 @@ fun MovieCart.toMovie(): Movie {
         price = this.price,
         category = this.category,
         rating = this.rating
+    )
+}
+fun Movie.toFavMovie(userRating: Double) : FavoriteMovie {
+    return FavoriteMovie(
+        fav_id = this.id,
+        name = this.name,
+        image = this.image,
+        rating = userRating
     )
 }
 fun convertToStar(rating:Double) : String {

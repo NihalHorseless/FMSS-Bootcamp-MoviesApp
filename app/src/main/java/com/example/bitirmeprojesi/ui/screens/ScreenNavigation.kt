@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.bitirmeprojesi.ui.viewmodel.CartScreenViewModel
+import com.example.bitirmeprojesi.ui.viewmodel.FavoriteScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MainScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MovieDetailScreenViewModel
 import com.example.bitirmeprojesi.util.Cart
@@ -17,7 +18,8 @@ import com.example.bitirmeprojesi.util.Home
 fun ScreenNavigation(
     mainScreenViewModel: MainScreenViewModel,
     movieDetailScreenViewModel: MovieDetailScreenViewModel,
-    cartScreenViewModel: CartScreenViewModel
+    cartScreenViewModel: CartScreenViewModel,
+    favoriteScreenViewModel: FavoriteScreenViewModel
 ) {
     val navController = rememberNavController()
     // Old Way
@@ -90,7 +92,7 @@ fun ScreenNavigation(
             }, onNavigateToCart = {
                     userName ->
                 navController.navigate(Cart(userName = userName))
-            })
+            }, favoriteScreenViewModel = favoriteScreenViewModel)
         }
     }
 
