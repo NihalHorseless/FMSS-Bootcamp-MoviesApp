@@ -9,17 +9,20 @@ import com.example.bitirmeprojesi.ui.viewmodel.CartScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.FavoriteScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MainScreenViewModel
 import com.example.bitirmeprojesi.ui.viewmodel.MovieDetailScreenViewModel
+import com.example.bitirmeprojesi.ui.viewmodel.SearchScreenViewModel
 import com.example.bitirmeprojesi.util.Cart
 import com.example.bitirmeprojesi.util.Detail
 import com.example.bitirmeprojesi.util.Favorites
 import com.example.bitirmeprojesi.util.Home
+import com.example.bitirmeprojesi.util.Search
 
 @Composable
 fun ScreenNavigation(
     mainScreenViewModel: MainScreenViewModel,
     movieDetailScreenViewModel: MovieDetailScreenViewModel,
     cartScreenViewModel: CartScreenViewModel,
-    favoriteScreenViewModel: FavoriteScreenViewModel
+    favoriteScreenViewModel: FavoriteScreenViewModel,
+    searchScreenViewModel: SearchScreenViewModel
 ) {
     val navController = rememberNavController()
     // Old Way
@@ -54,7 +57,11 @@ fun ScreenNavigation(
                 navController.navigate(Cart(userName = userName))
             }, onNavigateToFavs = {
                 navController.navigate(Favorites)
-            }, mainScreenViewModel = mainScreenViewModel)
+            }, onNavigateToSearch = {
+                navController.navigate(Search)
+            },
+                mainScreenViewModel = mainScreenViewModel
+            )
         }
         composable<Detail> { backStackEntry ->
             val detail: Detail = backStackEntry.toRoute()
@@ -63,7 +70,7 @@ fun ScreenNavigation(
                 navigateToCart = { userName ->
                     navController.navigate(
                         Cart(
-                        userName = userName
+                            userName = userName
                         )
                     )
                 }, navigateBack = {
@@ -71,8 +78,7 @@ fun ScreenNavigation(
                 }, movieDetailScreenViewModel = movieDetailScreenViewModel
             )
         }
-        composable<Cart> {
-                backStackEntry ->
+        composable<Cart> { backStackEntry ->
             val cart: Cart = backStackEntry.toRoute()
             CartScreen(
                 navigationBack = { navController.navigate(Home) },
@@ -80,19 +86,30 @@ fun ScreenNavigation(
                 userName = cart.userName
             )
         }
-        composable <Favorites> {
+        composable<Favorites> {
             FavoritesScreen(navigateToHome = {
                 navController.navigate(Home)
-            },onNavigateToDetail = { movieId ->
+            }, onNavigateToDetail = { movieId ->
                 navController.navigate(
                     Detail(
                         movieId = movieId
                     )
                 )
-            }, onNavigateToCart = {
-                    userName ->
+            }, onNavigateToCart = { userName ->
                 navController.navigate(Cart(userName = userName))
             }, favoriteScreenViewModel = favoriteScreenViewModel)
+        }
+        composable<Search> {
+            MovieSearchScreen(onNavigateToDetail = {
+                    movieId ->
+                navController.navigate(
+                    Detail(
+                        movieId = movieId
+                    )
+                )
+            },onNavigateToHome = {
+                navController.navigate(Home)
+            },searchViewModel = searchScreenViewModel)
         }
     }
 

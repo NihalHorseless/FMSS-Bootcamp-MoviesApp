@@ -22,7 +22,9 @@ fun Movie.toFavMovie(userRating: Double) : FavoriteMovie {
         fav_id = this.id,
         name = this.name,
         image = this.image,
-        rating = userRating
+        rating = userRating,
+        year = this.year,
+        category = this.category
     )
 }
 fun convertToStar(rating:Double) : String {

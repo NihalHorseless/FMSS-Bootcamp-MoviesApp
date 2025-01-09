@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,12 +36,17 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.bitirmeprojesi.R
 import com.example.bitirmeprojesi.data.model.movie.Movie
 import com.example.bitirmeprojesi.data.retrofit.ApiUtils.Companion.BASE_IMAGE_URL
+import com.example.bitirmeprojesi.ui.theme.roboto_medium
+import com.example.bitirmeprojesi.ui.theme.roboto_regular
 import com.example.bitirmeprojesi.ui.viewmodel.MovieDetailScreenViewModel
 import com.example.bitirmeprojesi.util.convertToStar
 
@@ -128,7 +134,7 @@ fun MovieDetailScreen(
                     Text(
                         text = movie.value.name,
                         style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = Color.LightGray,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -189,7 +195,7 @@ fun MovieDetailScreen(
                         color = MaterialTheme.colorScheme.onBackground
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(48.dp))
 
                     Button(
                         modifier = Modifier.fillMaxWidth(),
@@ -232,14 +238,14 @@ fun MovieDetailScreen(
 
     // Dialog for rating slider
     if (showRatingDialog.value) {
-        AlertDialog(
+        AlertDialog(containerColor = MaterialTheme.colorScheme.background,
             onDismissRequest = { showRatingDialog.value = false },
             title = { Text(text = "Rate this Movie") },
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Select your rating:")
                     Spacer(modifier = Modifier.height(16.dp))
-                    Slider(
+                    Slider(colors = SliderDefaults.colors(thumbColor = MaterialTheme.colorScheme.secondary,activeTrackColor = MaterialTheme.colorScheme.secondary),
                         value = userRating.value,
                         onValueChange = {
                             userRating.value = it.toInt().toFloat() // Restrict to discrete steps
@@ -251,7 +257,7 @@ fun MovieDetailScreen(
                 }
             },
             confirmButton = {
-                Button(
+                Button(colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                     onClick = {
                         movieDetailScreenViewModel.addMovieToFav(
                             movie = movie.value,
@@ -264,7 +270,7 @@ fun MovieDetailScreen(
                 }
             },
             dismissButton = {
-                Button(onClick = { showRatingDialog.value = false }) {
+                Button(colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),onClick = { showRatingDialog.value = false }) {
                     Text("Cancel")
                 }
             }

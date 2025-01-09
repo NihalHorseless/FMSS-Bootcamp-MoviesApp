@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,18 +19,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -68,9 +66,23 @@ fun FavoritesScreen(
             CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.tertiary),
                 title = { Text(text = "Favorite Movies") },
                 navigationIcon = {
-                    IconButton(colors = IconButtonDefaults.iconButtonColors(contentColor = Color.LightGray),onClick = {
-                        isGridView.value = !isGridView.value // Toggle between grid and list
-                    }) {
+                    IconButton(
+                        colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
+                        onClick = navigateToHome
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_home_24),
+                            contentDescription = "Home",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(
+                        colors = IconButtonDefaults.iconButtonColors(contentColor = Color.LightGray),
+                        onClick = {
+                            isGridView.value = !isGridView.value // Toggle between grid and list
+                        }) {
                         Icon(
                             painter = painterResource(
                                 if (isGridView.value) R.drawable.baseline_grid_off_24
@@ -79,30 +91,18 @@ fun FavoritesScreen(
                             contentDescription = "Toggle Layout"
                         )
                     }
-                },
-                actions = {
-                    Row(
-                        modifier = Modifier.fillMaxHeight(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        IconButton(colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.secondary),onClick = navigateToHome) {
-                            Icon(
-                                painter = painterResource(R.drawable.baseline_home_24),
-                                contentDescription = "Home",
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
-                        IconButton(colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.primary),onClick = { onNavigateToCart("onur_aslan") }) {
-                            Icon(
-                                painter = painterResource(R.drawable.baseline_shopping_cart_24),
-                                contentDescription = "Cart",
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                    }
+
                 }
+
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}, contentColor = Color.White, containerColor = MaterialTheme.colorScheme.primary) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_filter_list_24),
+                    contentDescription = ""
+                )
+            }
         }
     ) { paddingValues ->
         if (isGridView.value) {
@@ -110,8 +110,7 @@ fun FavoritesScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(MaterialTheme.colorScheme.surface)
-                    ,
+                    .background(MaterialTheme.colorScheme.surface),
                 columns = GridCells.Fixed(4)
             ) {
                 items(count = favoriteMovieList.value.size) { index ->
@@ -136,7 +135,9 @@ fun FavoritesScreen(
 
 @Composable
 fun MovieItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
-    Card(modifier = Modifier.padding(all = 4.dp).background(MaterialTheme.colorScheme.surface)) {
+    Card(modifier = Modifier
+        .padding(all = 4.dp)
+        .background(MaterialTheme.colorScheme.surface)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -145,22 +146,32 @@ fun MovieItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
             AsyncImage(
                 model = BASE_IMAGE_URL + movie.image,
                 contentDescription = null,
-                modifier = Modifier.aspectRatio(ratio = 2/3f),
+                modifier = Modifier.aspectRatio(ratio = 2 / 3f),
                 alignment = Alignment.Center
             )
             Row(
-                modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text(text = "${convertToStar(movie.rating)}", fontSize = 16.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = "${convertToStar(movie.rating)}",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
 }
+
 @Composable
 fun MovieListItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
-    Card(modifier = Modifier.padding(all = 4.dp).background(MaterialTheme.colorScheme.surface)) {
+    Card(modifier = Modifier
+        .padding(all = 4.dp)
+        .background(MaterialTheme.colorScheme.surface)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -175,14 +186,19 @@ fun MovieListItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
                 modifier = Modifier.size(width = 90.dp, height = 135.dp),
                 alignment = Alignment.Center
             )
-            Column (
+            Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "${movie.name}", fontSize = 20.sp, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "${convertToStar(movie.rating)}", fontSize = 18.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = "${convertToStar(movie.rating)}",
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary
+                )
 
             }
         }

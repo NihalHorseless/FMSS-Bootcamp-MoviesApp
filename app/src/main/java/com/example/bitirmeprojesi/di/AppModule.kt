@@ -9,6 +9,7 @@ import com.example.bitirmeprojesi.data.retrofit.ApiUtils
 import com.example.bitirmeprojesi.data.retrofit.MovieDao
 import com.example.bitirmeprojesi.room.FavMovieDao
 import com.example.bitirmeprojesi.room.FavoriteDatabase
+import com.example.bitirmeprojesi.room.Migration_1_to_2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,6 +48,7 @@ class AppModule {
     fun provideFavMovieDao(@ApplicationContext context: Context): FavMovieDao {
         val database =
             Room.databaseBuilder(context = context, klass =  FavoriteDatabase::class.java, name = "fav_movies")
+                .addMigrations(Migration_1_to_2)
                 .build()
 
         return database.getFavMovieDao()

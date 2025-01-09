@@ -14,3 +14,6 @@ data class Cart(val userName:String)
 
 @Serializable
 object Favorites
+
+@Serializable
+object Search

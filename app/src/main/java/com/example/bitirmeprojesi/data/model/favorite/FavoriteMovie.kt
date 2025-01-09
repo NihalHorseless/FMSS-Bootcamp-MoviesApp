@@ -13,7 +13,11 @@ data class FavoriteMovie(
     @ColumnInfo(name = "image")
     var image: String = "",
     @ColumnInfo(name = "rating")
-    var rating: Double = 1.0
+    var rating: Double = 1.0,
+    @ColumnInfo(name = "year")
+    var year: Int = 0,
+    @ColumnInfo(name = "category")
+    var category: String = ""
     ) {
 
 }
