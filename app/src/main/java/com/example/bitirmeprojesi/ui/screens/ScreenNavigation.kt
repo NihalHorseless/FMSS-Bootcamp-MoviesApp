@@ -25,24 +25,6 @@ fun ScreenNavigation(
     searchScreenViewModel: SearchScreenViewModel
 ) {
     val navController = rememberNavController()
-    // Old Way
-    //   NavHost(navController = navController, startDestination = "mainscreen") {
-    //       composable(route = "mainscreen") {
-    //           MainScreen(navController = navController)
-    //       }
-    //       composable(route = "detailscreen/{movie}", arguments = listOf(navArgument("movie") {
-    //           type = NavType.StringType
-    //       })) {
-    //           val json = it.arguments?.getString("movie")
-    //           val obje = Gson().fromJson(json, Movies::class.java)
-    //           MovieDetailScreen(passedMovie = obje, navController = navController)
-    //       }
-    //       composable(route = "cartscreen") {
-    //           CartScreen(navigationBack = {
-    //               navController.navigate(route = "mainscreen")
-    //           })
-    //       }
-    //   }
 
     // New Way
     NavHost(navController, startDestination = Home) {
@@ -95,8 +77,6 @@ fun ScreenNavigation(
                         movieId = movieId
                     )
                 )
-            }, onNavigateToCart = { userName ->
-                navController.navigate(Cart(userName = userName))
             }, favoriteScreenViewModel = favoriteScreenViewModel)
         }
         composable<Search> {

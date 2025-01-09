@@ -20,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
@@ -195,42 +196,42 @@ fun MovieDetailScreen(
                         color = MaterialTheme.colorScheme.onBackground
                     )
 
-                    Spacer(modifier = Modifier.height(48.dp))
+                    Spacer(modifier = Modifier.height(80.dp))
+Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+    IconButton(
+        modifier = Modifier,
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ),
+        onClick = {
+            movieDetailScreenViewModel.addMovieToCart(
+                movie = movie.value,
+                userName = "onur_aslan",
+                orderAmount = 1
+            )
+        }
+    ) {
+        Icon(painter = painterResource(R.drawable.baseline_add_24), contentDescription = "")
+    }
 
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary
-                        ),
-                        onClick = {
-                            movieDetailScreenViewModel.addMovieToCart(
-                                movie = movie.value,
-                                userName = "onur_aslan",
-                                orderAmount = 1
-                            )
-                        }
-                    ) {
-                        Text(text = "Add To Cart", color = MaterialTheme.colorScheme.onPrimary)
-                    }
+    IconButton(
+        modifier = Modifier,
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        ),
+        onClick = {
+            if (movieExistsInDb.value) {
+                movieDetailScreenViewModel.deleteMovieFromFav(movieId = movie.value.id)
+            } else {
+                showRatingDialog.value = true
+            }
+        }
+    ) {
+        Icon(painter = painterResource(if(movieExistsInDb.value) R.drawable.baseline_bookmark_24 else R.drawable.baseline_bookmark_border_24), contentDescription = "")
 
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        ),
-                        onClick = {
-                            if (movieExistsInDb.value) {
-                                movieDetailScreenViewModel.deleteMovieFromFav(movieId = movie.value.id)
-                            } else {
-                                showRatingDialog.value = true
-                            }
-                        }
-                    ) {
-                        Text(
-                            text = if (movieExistsInDb.value) "Delete From Fav" else "Add To Fav",
-                            color = MaterialTheme.colorScheme.onSecondary
-                        )
-                    }
+    }
+}
+
                 }
             }
         }

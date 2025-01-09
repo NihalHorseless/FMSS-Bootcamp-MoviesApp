@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
@@ -37,6 +39,7 @@ import coil3.compose.AsyncImage
 import com.example.bitirmeprojesi.R
 import com.example.bitirmeprojesi.data.retrofit.ApiUtils.Companion.BASE_IMAGE_URL
 import com.example.bitirmeprojesi.ui.viewmodel.CartScreenViewModel
+import com.example.bitirmeprojesi.util.convertToStar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -128,10 +131,9 @@ fun CartScreen(
                                 model = BASE_IMAGE_URL + cartItem.image,
                                 contentDescription = null
                             )
-                            Column(modifier = Modifier.padding(all = 10.dp)) {
-                                Text(text = cartItem.name)
-                                Text(text = "${cartItem.rating} ☆☆☆☆☆")
-                                Text(text = "${cartItem.price} ₺")
+                            Column(modifier = Modifier.padding(all = 10.dp), verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(text = cartItem.name, color = Color.White)
+                                Text(text = "${cartItem.price} ₺", color = Color.White)
                             }
                             ButtonGroup(
                                 onDelete = {
