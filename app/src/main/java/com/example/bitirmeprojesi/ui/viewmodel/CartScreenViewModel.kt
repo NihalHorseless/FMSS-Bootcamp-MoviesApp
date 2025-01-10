@@ -60,15 +60,9 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
                     orderAmount = updatedItem.orderAmount,
                     userName = updatedItem.userName
                 )
+                refreshCart(movieCart.userName)
 
-                // Update the UI state with the modified cart item without reloading the entire list
-                _movieCartMovies.value = _movieCartMovies.value.map {
-                    if (it.cartId == movieCart.cartId) {
-                        updatedItem // Update the modified item
-                    } else {
-                        it
-                    }
-                }
+
             } catch (e: Exception) {
                 Log.e("CartScreenViewModel", "Error increasing amount: ${e.message}")
             }
@@ -84,7 +78,6 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
                         cartId = movieCart.cartId,
                         userName = movieCart.userName
                     )
-                    refreshCart(userName = movieCart.userName) // Refresh data after deletion
                     Log.e("decreaseAfter", movieCartMovies.value.toString())
                 } else {
                     // Modify the order amount in the cart item directly
@@ -98,17 +91,10 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
                         orderAmount = updatedItem.orderAmount,
                         userName = updatedItem.userName
                     )
-                    // Update the UI state with the modified cart item without reloading the entire list
-                    _movieCartMovies.value = _movieCartMovies.value.map {
-                        if (it.cartId == movieCart.cartId) {
-                            updatedItem // Update the modified item
-                        } else {
-                            it
-                        }
-                    }
+
                 }
 
-
+                refreshCart(userName = movieCart.userName)
             } catch (e: Exception) {
                 Log.e("CartScreenViewModel", "Error decreasing amount: ${e.message}")
             }
@@ -134,7 +120,7 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
         viewModelScope.launch {
             try {
                 val updatedCarts = generalRepository.getMovieCart(userName)
-                _movieCartMovies.value = updatedCarts
+                _movieCartMovies.value = updatedCarts.sortedBy { it.name }
                 _isCartEmpty.value = updatedCarts.isEmpty()
                 _totalCost.value = calculateTotalPrice(movieCarts = updatedCarts)
             } catch (e: Exception) {

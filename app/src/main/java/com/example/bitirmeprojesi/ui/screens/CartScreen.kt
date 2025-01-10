@@ -1,6 +1,7 @@
 package com.example.bitirmeprojesi.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -100,16 +101,18 @@ fun CartScreen(
     ) { paddingValues ->
         if (isCartEmpty) {
             // Show empty state
-            Box(
+            Column (
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) { Image(painter = painterResource(R.drawable.abandoned_cart), modifier = Modifier, contentDescription = "")
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "You emptied the CART!",
+                    text = "Your cart is empty",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.LightGray
                 )
             }
         } else {
