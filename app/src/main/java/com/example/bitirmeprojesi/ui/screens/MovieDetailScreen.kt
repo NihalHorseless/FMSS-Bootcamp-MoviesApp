@@ -93,7 +93,7 @@ fun MovieDetailScreen(
                     Icon(
                         painter = painterResource(R.drawable.baseline_shopping_cart_24),
                         contentDescription = "Cart",
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = Color.White
                     )
                 }
             }
@@ -116,12 +116,12 @@ fun MovieDetailScreen(
                         )
                     )
             )
-
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
+                Spacer(modifier = Modifier.height(8.dp))
                 AsyncImage(
                     model = BASE_IMAGE_URL + movie.value.image,
                     contentDescription = "Movie Poster",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(7 / 6f)
@@ -152,10 +152,10 @@ fun MovieDetailScreen(
                             Icon(
                                 painter = painterResource(R.drawable.baseline_reviews_24),
                                 contentDescription = "Review Information",
-                                modifier = Modifier.size(16.dp),
+                                modifier = Modifier.size(24.dp),
                                 tint = MaterialTheme.colorScheme.secondary
                             )
-                            Text(text = "${convertToStar(movie.value.rating)}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+                            Text(text = "${convertToStar(movie.value.rating)}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
                         }
 
                         // Separator
@@ -167,10 +167,10 @@ fun MovieDetailScreen(
                             Icon(
                                 painter = painterResource(R.drawable.baseline_local_movies_24),
                                 contentDescription = "Review Information",
-                                modifier = Modifier.size(16.dp),
+                                modifier = Modifier.size(24.dp),
                                 tint = MaterialTheme.colorScheme.secondary
                             )
-                            Text(text = "${movie.value.category}", style = MaterialTheme.typography.bodyMedium, color = Color.White)
+                            Text(text = "${movie.value.category}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
                         }
 
                         // Separator (Optional)
@@ -182,21 +182,21 @@ fun MovieDetailScreen(
                             Icon(
                                 painter = painterResource(R.drawable.baseline_video_camera_director),
                                 contentDescription = "Review Information",
-                                modifier = Modifier.size(16.dp),
+                                modifier = Modifier.size(24.dp),
                                 tint = MaterialTheme.colorScheme.secondary
                             )
-                            Text(text = "${movie.value.director}", style = MaterialTheme.typography.bodyMedium, color = Color.White)
+                            Text(text = "${movie.value.director}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
                         text = movie.value.description,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
 
-                    Spacer(modifier = Modifier.height(80.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
     IconButton(
         modifier = Modifier,

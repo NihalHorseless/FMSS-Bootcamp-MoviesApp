@@ -1,5 +1,6 @@
 package com.example.bitirmeprojesi.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -49,10 +51,10 @@ fun MovieSearchScreen(onNavigateToDetail: (Int) -> Unit,
     val query = searchViewModel.searchQuery.collectAsState(initial = "")
 Scaffold(topBar =  {
 CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.tertiary),title = {
-    Text(text = "Search Movies")
+    Text(text = "Search Movies", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
 },navigationIcon = {
     IconButton(
-        colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.primary),
+        colors = IconButtonDefaults.iconButtonColors(contentColor = Color.White),
         onClick = onNavigateToHome ) {
         Icon(
             painter = painterResource(R.drawable.baseline_clear_24),
@@ -62,13 +64,16 @@ CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor
 })
 }) {paddingValues ->
     Column(modifier = Modifier.fillMaxSize().padding(paddingValues).background(MaterialTheme.colorScheme.surface)) {
-        Spacer(modifier = Modifier.height(4.dp))
 
         // Search Bar
         TextField(
             value = query.value,
             onValueChange = { searchViewModel.onSearch(it) },
-            placeholder = { Text("Search movies...") },
+            placeholder = { Row(modifier = Modifier.fillMaxWidth()) {
+                Icon(painter = painterResource(R.drawable.baseline_search_24), contentDescription = "")
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Search movies...")
+            } },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -115,8 +120,12 @@ fun MovieItem(movie: Movie,onNavigateToDetail: (Int) -> Unit) {
             Spacer(modifier = Modifier.width(16.dp))
             // Movie Details
             Column(verticalArrangement = Arrangement.Center) {
-                Text(text = movie.name, fontSize = 18.sp, maxLines = 1)
-                Text(text = "Directed by ${movie.director}", fontSize = 14.sp, color = Color.Gray)
+                Text(text = movie.name, fontSize = 18.sp, maxLines = 1, color = Color.White)
+                Row {
+                    Text(text = "Directed by ", fontSize = 14.sp, color = Color.Gray)
+                    Text(text = "${movie.director}", fontSize = 14.sp)
+
+                }
                 Text(text = "Year: ${movie.year}", fontSize = 14.sp, color = Color.Gray)
             }
         }

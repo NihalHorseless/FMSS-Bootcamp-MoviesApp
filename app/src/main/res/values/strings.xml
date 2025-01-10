@@ -1,3 +1,63 @@
 <resources>
-    <string name="app_name">BitirmeProjesi</string>
+    <!-- Cart Screen -->
+    <string name="movie_cart">Movie Cart</string>
+    <string name="order">Order!</string>
+    <string name="your_cart_is_empty">Your cart is empty</string>
+
+    <!-- Main Screen -->
+    <string name="movies">Movies</string>
+    <string name="highly_rated">Highly Rated</string>
+    <string name="masterpieces_by_tarantino">Masterpieces by Tarantino</string>
+
+    <!-- Accessibility Descriptions -->
+    <string name="back_button">Back</string>
+    <string name="delete_button">Delete</string>
+    <string name="remove_button">Remove</string>
+    <string name="add_button">Add</string>
+    <string name="favorites_button">Favorites</string>
+    <string name="cart_button">Shopping Cart</string>
+    <string name="search_button">Search</string>
+    <!-- General Labels -->
+    <string name="favorites_title">Favorites</string>
+    <string name="home_content_description">Home</string>
+    <string name="toggle_layout_content_description_grid">Toggle Layout</string>
+    <string name="toggle_layout_content_description_list">Toggle Layout</string>
+
+    <!-- Filter Dialog -->
+    <string name="filter_and_sort_title">Filter &amp; Sort</string>
+    <string name="category_label">Category:</string>
+    <string name="sort_by_label">Sort By:</string>
+    <string name="apply_button_text">Apply</string>
+    <string name="cancel_button_text">Cancel</string>
+
+    <!-- Filter Categories -->
+    <string name="category_action">Action</string>
+    <string name="category_fantastic">Fantastic</string>
+    <string name="category_drama">Drama</string>
+    <string name="category_science_fiction">Science Fiction</string>
+
+    <!-- Sort Options -->
+    <string name="sort_by_rating">Rating</string>
+    <string name="sort_by_year">Release Year</string>
+
+    <!-- Top Bar -->
+    <string name="back_button_content_description">Back</string>
+    <string name="cart_button_content_description">Cart</string>
+
+    <!-- Movie Details -->
+    <string name="movie_poster_content_description">Movie Poster</string>
+    <string name="review_info_content_description">Review Information</string>
+    <string name="rating_label">Rating:</string>
+    <string name="director_label">Director:</string>
+
+    <!-- Dialog -->
+    <string name="rate_movie_dialog_title">Rate this Movie</string>
+    <string name="rate_movie_dialog_message">Select your rating:</string>
+    <string name="rating_text">Rating: %1$s</string>
+    <string name="add_button_text">Add</string>
+
+    <!-- Cart -->
+    <string name="add_to_cart_content_description">Add to Cart</string>
+    <string name="bookmark_content_description">Bookmark</string>
+    <string name="unbookmark_content_description">Unbookmark</string>
 </resources>

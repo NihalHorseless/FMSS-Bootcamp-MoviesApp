@@ -1,5 +1,9 @@
 package com.example.bitirmeprojesi.ui.screens
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,7 +31,12 @@ fun ScreenNavigation(
     val navController = rememberNavController()
 
     // New Way
-    NavHost(navController, startDestination = Home) {
+    NavHost(navController,
+        startDestination = Home,
+        enterTransition = { slideInHorizontally { it } + fadeIn() },
+        exitTransition = { slideOutHorizontally { -it } + fadeOut() },
+        popEnterTransition = { slideInHorizontally { -it } + fadeIn() },
+        popExitTransition = { slideOutHorizontally { it } + fadeOut() }) {
         composable<Home> {
             MainScreen(onNavigateToDetail = { movieId ->
                 navController.navigate(

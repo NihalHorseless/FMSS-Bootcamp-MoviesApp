@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.bitirmeprojesi.R
@@ -68,7 +69,7 @@ fun CartScreen(
                         )
                     }
                 },
-                title = { Text(text = "Movie Cart") },
+                title = { Text(text = "Movie Cart", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
                 actions = {
                     IconButton(onClick = {
                         if (!isCartEmpty) {
@@ -104,10 +105,10 @@ fun CartScreen(
             Column (
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .background(MaterialTheme.colorScheme.surface),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ) { Image(painter = painterResource(R.drawable.abandoned_cart), modifier = Modifier, contentDescription = "")
+            ) { Icon(painter = painterResource(R.drawable.abandoned_cart), tint = MaterialTheme.colorScheme.tertiary, modifier = Modifier, contentDescription = "")
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Your cart is empty",

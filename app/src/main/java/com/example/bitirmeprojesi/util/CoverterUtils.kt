@@ -29,11 +29,11 @@ fun Movie.toFavMovie(userRating: Double) : FavoriteMovie {
 }
 fun convertToStar(rating:Double) : String {
     return when (rating) {
-        in 0.0 .. 1.99 -> " ✦⟡⟡⟡⟡"
-        in 2.0 .. 3.99 -> " ✦✦⟡⟡⟡"
-        in 4.0 .. 5.99 -> " ✦✦✦⟡⟡"
-        in 6.0 .. 7.99 -> " ✦✦✦✦⟡"
-        in 8.0 .. 10.0 -> " ✦✦✦✦✦"
+        in 0.0 .. 1.99 -> "✦⟡⟡⟡⟡"
+        in 2.0 .. 3.99 -> "✦✦⟡⟡⟡"
+        in 4.0 .. 5.99 -> "✦✦✦⟡⟡"
+        in 6.0 .. 7.99 -> "✦✦✦✦⟡"
+        in 8.0 .. 10.0 -> "✦✦✦✦✦"
         else -> "Invalid Rating"
 
     }

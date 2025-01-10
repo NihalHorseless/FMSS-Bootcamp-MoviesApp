@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +72,7 @@ fun FavoritesScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.tertiary),
-                title = { Text(text = "Favorite Movies") },
+                title = { Text(text = "Favorites", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(
                         colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
@@ -262,22 +264,23 @@ fun FilterDialog(
                             .clickable { selectedSortOption.value = option },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        RadioButton(colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.secondary),
+                        FilterChip(colors = FilterChipDefaults.filterChipColors(selectedContainerColor = MaterialTheme.colorScheme.primary),
                             selected = selectedSortOption.value == option,
-                            onClick = { selectedSortOption.value = option }
+                            onClick = { selectedSortOption.value = option },
+                            label = { Text(option.displayName) },
+                            modifier = Modifier.padding(4.dp)
                         )
-                        Text(text = option.displayName)
                     }
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = { onApply(selectedCategory.value, selectedSortOption.value) }) {
+            TextButton(colors = ButtonDefaults.textButtonColors(contentColor = Color.White),onClick = { onApply(selectedCategory.value, selectedSortOption.value) }) {
                 Text(text = "Apply")
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(colors = ButtonDefaults.textButtonColors(contentColor = Color.White),onClick = onDismiss) {
                 Text(text = "Cancel")
             }
         }
