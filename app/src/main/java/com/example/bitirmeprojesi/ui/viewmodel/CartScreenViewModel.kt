@@ -25,7 +25,7 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
     private val _totalCost = MutableStateFlow(0)
     val totalCost: StateFlow<Int> get() = _totalCost
 
-    fun calculateTotalPrice(movieCarts: List<MovieCart>): Int {
+    private fun calculateTotalPrice(movieCarts: List<MovieCart>): Int {
         var sum = 0
         for (movie in movieCarts) {
             sum += (movie.price * movie.orderAmount)
@@ -33,16 +33,7 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
         return sum
     }
 
-    fun deleteCartItem(cartId: Int, userName: String) {
-        viewModelScope.launch {
-            try {
-                val request = generalRepository.deleteMovie(userName = userName, cartId = cartId)
-                Log.e("TAG", "${request.message}  ${request.success}")
-            } catch (e: Exception) {
-                Log.e("CartScreenViewModel", "Error deleting cart item: ${e.message}")
-            }
-        }
-    }
+
 
     fun increaseAmount(movieCart: MovieCart) {
         viewModelScope.launch {
@@ -73,15 +64,14 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
         viewModelScope.launch {
             try {
                 if (movieCart.orderAmount == 1) {
-                    Log.e("decreaseBefore", movieCartMovies.value.toString())
                     generalRepository.deleteMovie(
                         cartId = movieCart.cartId,
                         userName = movieCart.userName
                     )
-                    Log.e("decreaseAfter", movieCartMovies.value.toString())
                 } else {
                     // Modify the order amount in the cart item directly
                     val updatedItem = movieCart.copy(orderAmount = movieCart.orderAmount - 1)
+                    // Delete and insert to increase the amount in cart
                     generalRepository.deleteMovie(
                         cartId = movieCart.cartId,
                         userName = movieCart.userName
@@ -99,8 +89,6 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
                 Log.e("CartScreenViewModel", "Error decreasing amount: ${e.message}")
             }
         }
-        Log.e("decreasedone", movieCartMovies.value.toString())
-
     }
 
     fun deleteAllCarts(cartItems: List<MovieCart>) {
@@ -109,13 +97,13 @@ class CartScreenViewModel @Inject constructor(private val generalRepository: Gen
                 cartItems.forEach { item ->
                     generalRepository.deleteMovie(userName = item.userName, cartId = item.cartId)
                 }
-                refreshCart("onur_aslan") // Refresh data after deletion
+                refreshCart("onur_aslan") // Refreshes data after deletion
             } catch (e: Exception) {
                 Log.e("CartScreenViewModel", "Error deleting all carts: ${e.message}")
             }
         }
     }
-
+// Refreshes the cart after any changes
     fun refreshCart(userName: String) {
         viewModelScope.launch {
             try {

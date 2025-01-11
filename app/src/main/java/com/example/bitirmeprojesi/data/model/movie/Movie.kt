@@ -13,5 +13,4 @@ data class Movie(
     var year: Int = 0 ,
     var director: String = "",
     var description: String = ""
-) {
-}
+)

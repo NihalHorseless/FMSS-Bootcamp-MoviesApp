@@ -1,9 +1,8 @@
 package com.example.bitirmeprojesi.data.retrofit
 
-import com.example.bitirmeprojesi.data.model.cart.CartResponse
 import com.example.bitirmeprojesi.data.model.DeleteInsertResponse
+import com.example.bitirmeprojesi.data.model.cart.CartResponse
 import com.example.bitirmeprojesi.data.model.movie.MovieResponse
-import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

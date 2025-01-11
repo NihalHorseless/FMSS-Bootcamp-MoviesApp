@@ -19,6 +19,7 @@ import com.example.bitirmeprojesi.util.Detail
 import com.example.bitirmeprojesi.util.Favorites
 import com.example.bitirmeprojesi.util.Home
 import com.example.bitirmeprojesi.util.Search
+import com.example.bitirmeprojesi.util.Splash
 
 @Composable
 fun ScreenNavigation(
@@ -30,13 +31,23 @@ fun ScreenNavigation(
 ) {
     val navController = rememberNavController()
 
-    // New Way
+    // New way of defining navigation
     NavHost(navController,
-        startDestination = Home,
+        startDestination = Splash,
+        // Screen Transition Animations
         enterTransition = { slideInHorizontally { it } + fadeIn() },
         exitTransition = { slideOutHorizontally { -it } + fadeOut() },
         popEnterTransition = { slideInHorizontally { -it } + fadeIn() },
         popExitTransition = { slideOutHorizontally { it } + fadeOut() }) {
+        // Splash Screen
+        composable<Splash> {
+            SplashScreen (
+                onAnimationEnd = {
+                   navController.navigate(Home)
+                }
+            )
+        }
+        // Home Screen
         composable<Home> {
             MainScreen(onNavigateToDetail = { movieId ->
                 navController.navigate(
@@ -54,6 +65,7 @@ fun ScreenNavigation(
                 mainScreenViewModel = mainScreenViewModel
             )
         }
+        // Detail Screen
         composable<Detail> { backStackEntry ->
             val detail: Detail = backStackEntry.toRoute()
             MovieDetailScreen(
@@ -69,14 +81,14 @@ fun ScreenNavigation(
                 }, movieDetailScreenViewModel = movieDetailScreenViewModel
             )
         }
-        composable<Cart> { backStackEntry ->
-            val cart: Cart = backStackEntry.toRoute()
+        // Cart Screen
+        composable<Cart> {
             CartScreen(
                 navigationBack = { navController.navigate(Home) },
-                cartScreenViewModel = cartScreenViewModel,
-                userName = cart.userName
+                cartScreenViewModel = cartScreenViewModel
             )
         }
+        // Favorites Screen
         composable<Favorites> {
             FavoritesScreen(navigateToHome = {
                 navController.navigate(Home)
@@ -88,6 +100,7 @@ fun ScreenNavigation(
                 )
             }, favoriteScreenViewModel = favoriteScreenViewModel)
         }
+        // Search Screen
         composable<Search> {
             MovieSearchScreen(onNavigateToDetail = {
                     movieId ->

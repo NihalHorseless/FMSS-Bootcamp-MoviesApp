@@ -1,6 +1,5 @@
 package com.example.bitirmeprojesi.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -14,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 
 
 
-// Letterboxd-inspired dark color scheme
+// Dark Color Scheme
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFF00B021), // Letterboxd green
     secondary = Color(0xFFF27405), // Gold/yellow
@@ -27,7 +26,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = Color.White // Text on surfaces
 )
 
-// Light color scheme (optional, as Letterboxd primarily uses dark themes)
+// Light color scheme
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF00A56A), // Same green
     secondary = Color(0xFFFFD700), // Same yellow
@@ -39,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color.Black, // Text on light background
     onSurface = Color.Black // Text on surfaces
 )
-
+// I disabled Light Color Scheme I don't think it goes well with UI design
 @Composable
 fun BitirmeProjesiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

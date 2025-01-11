@@ -16,7 +16,8 @@ class SearchScreenViewModel@Inject constructor(private val generalRepository: Ge
     private val _movieList = MutableStateFlow<List<Movie>>(emptyList())
     val movieList: StateFlow<List<Movie>> get() = _movieList
 
-    private val _searchQuery = MutableStateFlow<String>("")
+    // To hold the search query
+    private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> get() = _searchQuery
 
     private val _filteredMovies = MutableStateFlow<List<Movie>>(emptyList())
@@ -25,14 +26,14 @@ class SearchScreenViewModel@Inject constructor(private val generalRepository: Ge
     init {
         fetchMovies()
     }
-
+    // Gets the list of movies from the API
     private fun fetchMovies() {
         viewModelScope.launch {
             val response = generalRepository.getMovies()
             _movieList.value = response
         }
     }
-
+    // Filters the movie list based on the search query
      fun onSearch(query: String) {
         viewModelScope.launch {
             _searchQuery.value = query
@@ -44,6 +45,5 @@ class SearchScreenViewModel@Inject constructor(private val generalRepository: Ge
             }
         }
 
-       // fetchMovies()
     }
 }

@@ -20,10 +20,12 @@ class MainScreenViewModel @Inject constructor(private val generalRepository: Gen
     init {
         loadMovies()
     }
-    fun getMoviesByDirector(passedMovieList: List<Movie>,directorName: String): List<Movie> {
+
+    fun getMoviesByDirector(passedMovieList: List<Movie>, directorName: String): List<Movie> {
         return passedMovieList.filter { it.director.equals(directorName, ignoreCase = true) }
     }
-    fun getTopRatedMovies(passedMovieList:List<Movie>): List<Movie> {
+
+    fun getTopRatedMovies(passedMovieList: List<Movie>): List<Movie> {
         return passedMovieList.sortedByDescending { it.rating }.take(5)
     }
 

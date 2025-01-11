@@ -1,9 +1,9 @@
 <resources>
+    <string name="app_name">Movie App</string>
+
     <!-- Cart Screen -->
-    <string name="movie_cart">Movie Cart</string>
     <string name="order">Order!</string>
     <string name="your_cart_is_empty">Your cart is empty</string>
-
     <!-- Main Screen -->
     <string name="movies">Movies</string>
     <string name="highly_rated">Highly Rated</string>
@@ -60,4 +60,12 @@
     <string name="add_to_cart_content_description">Add to Cart</string>
     <string name="bookmark_content_description">Bookmark</string>
     <string name="unbookmark_content_description">Unbookmark</string>
+    <string name="movie_cart_title">Cart</string>
+    <string name="delete_cart">Delete Icon</string>
+    <string name="search_movies">Search Movies</string>
+    <string name="search_movies_tf">Search movies.....</string>
+    <string name="directed_by">Directed by </string>
+    <string name="splash_title">You better brought some Popcorn!</string>
+    <string name="search_button_desc">Search Button</string>
+    <string name="sample_movie_director">Quentin Tarantino</string>
 </resources>

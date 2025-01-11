@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -75,7 +76,7 @@ fun MainScreen(
             CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.tertiary),
                 title = {
                     Text(
-                        text = "Movies",
+                        text = stringResource(R.string.movies),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -87,7 +88,7 @@ fun MainScreen(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_bookmarks_24),
-                            contentDescription = ""
+                            contentDescription = stringResource(R.string.bookmark_content_description)
                         )
                     }
 
@@ -99,13 +100,14 @@ fun MainScreen(
                         onClick = { onNavigateToCart("onur_aslan") }) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_shopping_cart_24),
-                            contentDescription = ""
+                            contentDescription = stringResource(R.string.cart_button_content_description)
                         )
                     }
 
                 }
             )
         },
+        // Floating action button for navigating to search screen
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToSearch,
@@ -114,7 +116,7 @@ fun MainScreen(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_manage_search_24),
-                    contentDescription = ""
+                    contentDescription = stringResource(R.string.search_button_desc)
                 )
             }
         }
@@ -129,17 +131,19 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
+            // Section for highly rated movies
             MoviesSection(
-                sectionName = "Highly Rated",
+                sectionName = stringResource(R.string.highly_rated),
                 onNavigateToDetail = onNavigateToDetail,
                 movieList = mainScreenViewModel.getTopRatedMovies(movieList.value)
             )
+            // Section for movies by Quentin Tarantino
             MoviesSection(
-                sectionName = "Masterpieces by Tarantino",
+                sectionName = stringResource(R.string.masterpieces_by_tarantino),
                 onNavigateToDetail = onNavigateToDetail,
                 movieList = mainScreenViewModel.getMoviesByDirector(
                     passedMovieList = movieList.value,
-                    directorName = "Quentin Tarantino"
+                    directorName = stringResource(R.string.sample_movie_director)
                 )
             )
 
@@ -151,6 +155,7 @@ fun MainScreen(
 
 @Composable
 fun MoviesSection(sectionName: String, onNavigateToDetail: (Int) -> Unit, movieList: List<Movie>) {
+    // Section title
     Text(
         text = sectionName,
         modifier = Modifier
@@ -159,6 +164,7 @@ fun MoviesSection(sectionName: String, onNavigateToDetail: (Int) -> Unit, movieL
         style = MaterialTheme.typography.headlineSmall,
         fontWeight = FontWeight.SemiBold
     )
+    // Horizontal list of movie cards
     LazyRow(
         modifier = Modifier
             .fillMaxWidth(),
@@ -212,12 +218,13 @@ fun LottiePlaceholder(
     modifier: Modifier = Modifier,
     animationRes: Int
 ) {
+    // Property values for Lottie animation
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationRes))
     val progress by animateLottieCompositionAsState(
         composition = composition,
         iterations = LottieConstants.IterateForever
     )
-
+    // Displays the Lottie animation
     LottieAnimation(
         composition = composition,
         progress = progress,

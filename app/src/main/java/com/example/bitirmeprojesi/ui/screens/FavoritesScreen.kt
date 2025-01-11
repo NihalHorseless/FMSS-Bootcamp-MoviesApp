@@ -28,8 +28,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -43,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -62,8 +61,8 @@ fun FavoritesScreen(
     favoriteScreenViewModel: FavoriteScreenViewModel
 ) {
     val favoriteMovieList = favoriteScreenViewModel.filteredFavMovies.collectAsState(initial = emptyList())
-    val isGridView = remember { mutableStateOf(true) } // Track layout type
-    val showFilterDialog = remember { mutableStateOf(false) }
+    val isGridView = remember { mutableStateOf(true) } // Checks whether the view is grid or list
+    val showFilterDialog = remember { mutableStateOf(false) } // Controls visibility of the filter section
 
     LaunchedEffect(Unit) {
         favoriteScreenViewModel.loadFavoriteMovies()
@@ -72,7 +71,7 @@ fun FavoritesScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.tertiary),
-                title = { Text(text = "Favorites", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
+                title = { Text(text = stringResource(R.string.favorites_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(
                         colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
@@ -80,7 +79,7 @@ fun FavoritesScreen(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_home_24),
-                            contentDescription = "Home",
+                            contentDescription = stringResource(R.string.home_content_description),
                             modifier = Modifier.size(28.dp)
                         )
                     }
@@ -96,7 +95,7 @@ fun FavoritesScreen(
                                 if (isGridView.value) R.drawable.baseline_grid_off_24
                                 else R.drawable.baseline_grid_on_24
                             ),
-                            contentDescription = "Toggle Layout"
+                            contentDescription = stringResource(R.string.toggle_layout_content_description_grid)
                         )
                     }
 
@@ -108,7 +107,7 @@ fun FavoritesScreen(
             FloatingActionButton(onClick = {showFilterDialog.value = true}, contentColor = Color.White, containerColor = MaterialTheme.colorScheme.primary) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_filter_list_24),
-                    contentDescription = ""
+                    contentDescription = stringResource(R.string.toggle_layout_content_description_grid)
                 )
             }
         }
@@ -138,6 +137,7 @@ fun FavoritesScreen(
                 }
             }
         }
+        // Show the filter section if showFilterDialog is true
         if (showFilterDialog.value) {
             FilterDialog(
                 onApply = { category, sortOption ->
@@ -162,7 +162,7 @@ fun MovieItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
         ) {
             AsyncImage(
                 model = BASE_IMAGE_URL + movie.image,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.movie_poster_content_description),
                 modifier = Modifier.aspectRatio(ratio = 2 / 3f),
                 alignment = Alignment.Center
             )
@@ -199,7 +199,7 @@ fun MovieListItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
         ) {
             AsyncImage(
                 model = BASE_IMAGE_URL + movie.image,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.movie_poster_content_description),
                 modifier = Modifier.size(width = 90.dp, height = 135.dp),
                 alignment = Alignment.Center
             )
@@ -234,10 +234,10 @@ fun FilterDialog(
     // Dialog UI
     AlertDialog(containerColor = MaterialTheme.colorScheme.background,
         onDismissRequest = onDismiss,
-        title = { Text(text = "Filter & Sort") },
+        title = { Text(text = stringResource(R.string.filter_and_sort_title)) },
         text = {
             Column {
-                Text(text = "Category:")
+                Text(text = stringResource(R.string.category_label))
                 categories.forEach { category ->
                     Row(
                         modifier = Modifier
@@ -256,8 +256,8 @@ fun FilterDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(text = "Sort By:")
-                SortOption.values().forEach { option ->
+                Text(text = stringResource(R.string.sort_by_label))
+                SortOption.entries.forEach { option ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -276,12 +276,12 @@ fun FilterDialog(
         },
         confirmButton = {
             TextButton(colors = ButtonDefaults.textButtonColors(contentColor = Color.White),onClick = { onApply(selectedCategory.value, selectedSortOption.value) }) {
-                Text(text = "Apply")
+                Text(text = stringResource(R.string.apply_button_text))
             }
         },
         dismissButton = {
             TextButton(colors = ButtonDefaults.textButtonColors(contentColor = Color.White),onClick = onDismiss) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.cancel_button_text))
             }
         }
     )

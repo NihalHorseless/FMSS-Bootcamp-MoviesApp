@@ -1,6 +1,5 @@
 package com.example.bitirmeprojesi.util
 
-import com.example.bitirmeprojesi.data.model.movie.Movie
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,3 +16,6 @@ object Favorites
 
 @Serializable
 object Search
+
+@Serializable
+object Splash

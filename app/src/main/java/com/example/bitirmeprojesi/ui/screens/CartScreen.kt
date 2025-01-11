@@ -1,10 +1,7 @@
 package com.example.bitirmeprojesi.ui.screens
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,25 +32,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.bitirmeprojesi.R
 import com.example.bitirmeprojesi.data.retrofit.ApiUtils.Companion.BASE_IMAGE_URL
 import com.example.bitirmeprojesi.ui.viewmodel.CartScreenViewModel
-import com.example.bitirmeprojesi.util.convertToStar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(
     navigationBack: () -> Unit,
-    userName: String,
     cartScreenViewModel: CartScreenViewModel
 ) {
     val cartList = cartScreenViewModel.movieCartMovies.collectAsState(initial = listOf())
     val isCartEmpty by cartScreenViewModel.isCartEmpty.collectAsState()
     val totalPrice = cartScreenViewModel.totalCost.collectAsState(initial = 0)
 
+    // Refreshes the cart when the screen is launched
     LaunchedEffect(Unit) {
         cartScreenViewModel.refreshCart(userName = "onur_aslan")
     }
@@ -65,21 +62,20 @@ fun CartScreen(
                     IconButton(onClick = navigationBack) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_arrow_back_24),
-                            contentDescription = ""
+                            contentDescription = stringResource(R.string.cart_button_content_description)
                         )
                     }
                 },
-                title = { Text(text = "Movie Cart", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
+                title = { Text(text = stringResource(R.string.movie_cart_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
                 actions = {
                     IconButton(onClick = {
                         if (!isCartEmpty) {
                             cartScreenViewModel.deleteAllCarts(cartList.value)
-                            Log.e("OnDeleteAll", cartList.value.toString())
                         }
                     }) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_delete_24),
-                            contentDescription = ""
+                            contentDescription = stringResource(R.string.delete_cart)
                         )
                     }
                 }
@@ -93,7 +89,7 @@ fun CartScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Button(colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),onClick = {}, modifier = Modifier.fillMaxWidth(0.7f)) {
-                        Text(text = "Order!")
+                        Text(text = stringResource(R.string.order))
                     }
                     Text(text = "${totalPrice.value} ₺", modifier = Modifier, color = Color.White)
                 }
@@ -101,22 +97,23 @@ fun CartScreen(
         }
     ) { paddingValues ->
         if (isCartEmpty) {
-            // Show empty state
+            // Shows empty screen if the cart is empty
             Column (
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ) { Icon(painter = painterResource(R.drawable.abandoned_cart), tint = MaterialTheme.colorScheme.tertiary, modifier = Modifier, contentDescription = "")
+            ) { Icon(painter = painterResource(R.drawable.abandoned_cart), tint = MaterialTheme.colorScheme.tertiary, modifier = Modifier, contentDescription = stringResource(R.string.your_cart_is_empty))
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Your cart is empty",
+                    text = stringResource(R.string.your_cart_is_empty),
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.LightGray
                 )
             }
         } else {
+            // Show the list of cart items
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -125,7 +122,7 @@ fun CartScreen(
             ) {
                 items(count = cartList.value.size) { index ->
                     val cartItem = cartList.value[index]
-                    Card(modifier = Modifier.padding(all = 5.dp).background(MaterialTheme.colorScheme.surface)) {
+                    Card(modifier = Modifier.padding(all = 8.dp).background(MaterialTheme.colorScheme.surface)) {
                         Row(
                             modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background),
                             verticalAlignment = Alignment.CenterVertically,
@@ -133,7 +130,7 @@ fun CartScreen(
                         ) {
                             AsyncImage(
                                 model = BASE_IMAGE_URL + cartItem.image,
-                                contentDescription = null
+                                contentDescription = stringResource(R.string.movie_poster_content_description)
                             )
                             Column(modifier = Modifier.padding(all = 10.dp), verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(text = cartItem.name, color = Color.White)
@@ -142,11 +139,9 @@ fun CartScreen(
                             ButtonGroup(
                                 onDelete = {
                                     cartScreenViewModel.decreaseAmount(movieCart = cartItem)
-                                    Log.e("OnDelete", cartList.toString())
                                 },
                                 onIncrease = {
                                     cartScreenViewModel.increaseAmount(movieCart = cartItem)
-                                    Log.e("OnIncrease", cartList.toString())
                                 },
                                 orderAmount = cartItem.orderAmount
                             )
@@ -162,7 +157,7 @@ fun CartScreen(
 @Composable
 fun ButtonGroup(onDelete: () -> Unit, onIncrease: () -> Unit, orderAmount: Int) {
     Row(
-        modifier = Modifier,
+        modifier = Modifier.padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {

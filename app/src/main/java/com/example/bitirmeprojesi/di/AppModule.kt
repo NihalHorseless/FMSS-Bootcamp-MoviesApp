@@ -34,7 +34,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCartDataSource(movieDao: MovieDao,favMovieDao: FavMovieDao) : CartDataSource {
+    fun provideCartDataSource(movieDao: MovieDao) : CartDataSource {
         return CartDataSource(movieDao = movieDao)
     }
 
@@ -48,7 +48,7 @@ class AppModule {
     fun provideFavMovieDao(@ApplicationContext context: Context): FavMovieDao {
         val database =
             Room.databaseBuilder(context = context, klass =  FavoriteDatabase::class.java, name = "fav_movies")
-                .addMigrations(Migration_1_to_2)
+                .addMigrations(Migration_1_to_2) // Migration for changing the database schema
                 .build()
 
         return database.getFavMovieDao()

@@ -18,6 +18,4 @@ data class FavoriteMovie(
     var year: Int = 0,
     @ColumnInfo(name = "category")
     var category: String = ""
-    ) {
-
-}
+    )

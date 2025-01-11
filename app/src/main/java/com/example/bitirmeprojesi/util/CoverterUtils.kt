@@ -4,7 +4,7 @@ import com.example.bitirmeprojesi.data.model.cart.MovieCart
 import com.example.bitirmeprojesi.data.model.favorite.FavoriteMovie
 import com.example.bitirmeprojesi.data.model.movie.Movie
 
-
+// Converts a MovieCart object to a Movie object
 fun MovieCart.toMovie(): Movie {
     return Movie(
         director = this.director,
@@ -17,6 +17,7 @@ fun MovieCart.toMovie(): Movie {
         rating = this.rating
     )
 }
+// Converts a Movie object to a FavoriteMovie object
 fun Movie.toFavMovie(userRating: Double) : FavoriteMovie {
     return FavoriteMovie(
         fav_id = this.id,
@@ -27,13 +28,14 @@ fun Movie.toFavMovie(userRating: Double) : FavoriteMovie {
         category = this.category
     )
 }
+// Converts the rating to a star emoji string
 fun convertToStar(rating:Double) : String {
     return when (rating) {
-        in 0.0 .. 1.99 -> "✦⟡⟡⟡⟡"
-        in 2.0 .. 3.99 -> "✦✦⟡⟡⟡"
-        in 4.0 .. 5.99 -> "✦✦✦⟡⟡"
-        in 6.0 .. 7.99 -> "✦✦✦✦⟡"
-        in 8.0 .. 10.0 -> "✦✦✦✦✦"
+        in 0.0 .. 2.0 -> "✦⟡⟡⟡⟡"
+        in 2.1 .. 4.0 -> "✦✦⟡⟡⟡"
+        in 4.1 .. 6.0-> "✦✦✦⟡⟡"
+        in 6.1 .. 8.0 -> "✦✦✦✦⟡"
+        in 8.1 .. 10.0 -> "✦✦✦✦✦"
         else -> "Invalid Rating"
 
     }
