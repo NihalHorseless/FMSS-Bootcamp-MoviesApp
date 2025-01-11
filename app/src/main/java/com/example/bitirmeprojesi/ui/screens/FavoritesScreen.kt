@@ -208,7 +208,9 @@ fun MovieListItemCard(movie: FavoriteMovie, onClick: () -> Unit) {
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = movie.name, fontSize = 20.sp, textAlign = TextAlign.Center)
+                Text(text = movie.name, fontSize = 20.sp, textAlign = TextAlign.Center, color = Color.White)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "${movie.year} - ${movie.category}", fontSize = 18.sp, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = convertToStar(movie.rating),

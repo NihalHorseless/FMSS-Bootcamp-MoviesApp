@@ -65,7 +65,7 @@
     <string name="search_movies">Search Movies</string>
     <string name="search_movies_tf">Search movies.....</string>
     <string name="directed_by">Directed by </string>
-    <string name="splash_title">You better brought some Popcorn!</string>
+    <string name="splash_title">The Movie is starting!</string>
     <string name="search_button_desc">Search Button</string>
     <string name="sample_movie_director">Quentin Tarantino</string>
 </resources>
